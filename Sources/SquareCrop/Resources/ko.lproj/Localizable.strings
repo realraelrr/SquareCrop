@@ -1,0 +1,7 @@
+"crop.preview" = "사진 자르기 미리보기";
+"crop.center" = "사진 가운데 맞추기";
+"crop.move_left" = "사진 왼쪽으로 이동";
+"crop.move_right" = "사진 오른쪽으로 이동";
+"crop.move_up" = "사진 위로 이동";
+"crop.move_down" = "사진 아래로 이동";
+"crop.zoom.value" = "확대/축소: %lld%%";

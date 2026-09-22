@@ -1,0 +1,7 @@
+"crop.preview" = "照片裁剪预览";
+"crop.center" = "将照片居中";
+"crop.move_left" = "向左移动照片";
+"crop.move_right" = "向右移动照片";
+"crop.move_up" = "向上移动照片";
+"crop.move_down" = "向下移动照片";
+"crop.zoom.value" = "缩放：%lld%%";

@@ -1,0 +1,7 @@
+"crop.preview" = "写真の切り抜きプレビュー";
+"crop.center" = "写真を中央に配置";
+"crop.move_left" = "写真を左に移動";
+"crop.move_right" = "写真を右に移動";
+"crop.move_up" = "写真を上に移動";
+"crop.move_down" = "写真を下に移動";
+"crop.zoom.value" = "ズーム：%lld%%";

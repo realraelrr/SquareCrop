@@ -1,0 +1,7 @@
+"crop.preview" = "Photo crop preview";
+"crop.center" = "Center photo";
+"crop.move_left" = "Move photo left";
+"crop.move_right" = "Move photo right";
+"crop.move_up" = "Move photo up";
+"crop.move_down" = "Move photo down";
+"crop.zoom.value" = "Zoom: %lld%%";

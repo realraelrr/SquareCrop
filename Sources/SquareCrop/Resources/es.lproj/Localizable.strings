@@ -1,0 +1,7 @@
+"crop.preview" = "Vista previa del recorte de la foto";
+"crop.center" = "Centrar foto";
+"crop.move_left" = "Mover foto a la izquierda";
+"crop.move_right" = "Mover foto a la derecha";
+"crop.move_up" = "Mover foto hacia arriba";
+"crop.move_down" = "Mover foto hacia abajo";
+"crop.zoom.value" = "Zoom: %lld%%";
