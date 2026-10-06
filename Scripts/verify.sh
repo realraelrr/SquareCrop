@@ -27,6 +27,7 @@ done
 python3 - "$package_root" "$result_dir/IsolatedConsumer" <<'PY'
 from pathlib import Path
 import shutil
+import stat
 import sys
 
 source = Path(sys.argv[1]).resolve()
@@ -43,6 +44,7 @@ shutil.copytree(
     ignore=shutil.ignore_patterns("xcuserdata", ".DS_Store"),
 )
 project = isolated / "Consumer/SquareCropExample.xcodeproj/project.pbxproj"
+project.chmod(project.stat().st_mode | stat.S_IWUSR)
 text = project.read_text()
 reference = 'relativePath = "..";'
 if text.count(reference) != 1:

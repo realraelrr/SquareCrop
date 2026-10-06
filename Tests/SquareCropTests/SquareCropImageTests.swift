@@ -18,6 +18,35 @@ final class SquareCropImageTests: XCTestCase {
     }
   }
 
+  func testDataUsesDeclaredNonzeroHEIFPrimaryImage() throws {
+    // ImageIO-created HEIC: red image at index 0, blue primary image at index 1.
+    // Keep the tiny fixture fixed so encoder ordering cannot mask this regression.
+    let data = try XCTUnwrap(Data(base64Encoded: """
+      AAAAIGZ0eXBoZWljAAAAAG1pZjFNaUhFbWlhZmhlaWMAAAGxbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAcGljdAAAAAAAAAAA
+      AAAAAAAAAAAkZGluZgAAABxkcmVmAAAAAAAAAAEAAAAMdXJsIAAAAAEAAAAOcGl0bQAAAAAAAgAAADhpaW5mAAAAAAACAAAA
+      FWluZmUCAAAAAAEAAGh2YzEAAAAAFWluZmUCAAAAAAIAAGh2YzEAAAAA7mlwcnAAAADEaXBjbwAAABNjb2xybmNseAACAAIA
+      BoAAAAAMY2xsaQDLAEAAAAAUaXNwZQAAAAAAAABgAAAAQAAAAAlpcm90AAAAABBwaXhpAAAAAAMICAgAAABwaHZjQwEECAAA
+      AL4IAAAAAB7wAPz/+PgAAAsDoAABABdAAQwB//8ECAAAAwC+CAAAAwAAHhcCQKEAAQAiQgEBBAgAAAMAvggAAAMAAB6QAoQI
+      OBB8QL3IsKm4EBAwBKIAAQAJRAHAYNQQgqkgAAAAImlwbWEAAAAAAAAAAgABBoECAwWGhAACBoECAwWGhAAAACxpbG9jAAAA
+      AEQAAAIAAQAAAAEAAAHhAAAAwQACAAAAAQAAAqIAAADJAAAAAW1kYXQAAAAAAAABmgAAAL0oAa6EWEAu/H+7C9//9xe3PxSK
+      kZGRkZSMjIyMjIyKqf//nNZf//uL272TkSJEiRLFixYsWLE07/8VNgBd5qnMlyaYeHAHAHAHAHF/F/F/F/F/F/F/GG6mIPvF
+      72Pjxj9RxPDm/YYgABAT5501UcmioqKipq6urq6urqte/4yQALNfquaowGjRo0ajx48ePHjpYnSgv//2S+xPrL0dyNyNyNyN
+      yWyWyWyWyWyWyWyQJ/TV0QfAuwbFPblt3sMAAADFKAGuhFxALvx/uwvf//uAFuhaJLlYnYnYnYnYzQzQzQzQzQzQzQqx//+c
+      0WAE/qb9Q/RvmXhXhXhXhXhrhrhrhrhrhrhrhdO//FZP//0nIXDDDDDDyyyyyyy63UxB94vex8eMfqOJ4c37DEAAIDPHp06Z
+      MIjgfgfgfgfg/w/w/w/w/w/w/wit/xqH//+e9zscv2Mp2J2J2J2J3j3j3j3j3j3j3j2TE6PmAR3Rt5JJJJJJtttttttYn9NX
+      RB8C7BjFPblt3sM=
+      """, options: .ignoreUnknownCharacters))
+    let imageSource = try XCTUnwrap(CGImageSourceCreateWithData(data as CFData, nil))
+    XCTAssertEqual(CGImageSourceGetCount(imageSource), 2)
+    XCTAssertEqual(CGImageSourceGetPrimaryImageIndex(imageSource), 1)
+
+    let source = try SquareCropSource(data: data)
+    XCTAssertEqual(source.pixelSize, CGSize(width: 96, height: 64))
+    assertPixel(pixel(source.cgImage, CGPoint(x: 0.5, y: 0.5)), approximately: [0, 0, 255, 255], tolerance: 15)
+    let output = try XCTUnwrap(source.render(outputPixelSide: 64).cgImage)
+    assertPixel(pixel(output, CGPoint(x: 0.5, y: 0.5)), approximately: [0, 0, 255, 255], tolerance: 15)
+  }
+
   func testAllEightEXIFAndUIImageOrientationsAgreeAtScaleTwoAndThree() throws {
     let raw = try colorImage(width: 120, height: 80)
     let orientations: [UIImage.Orientation] = [.up, .upMirrored, .down, .downMirrored, .leftMirrored, .right, .rightMirrored, .left]

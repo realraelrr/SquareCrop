@@ -26,7 +26,8 @@ public struct SquareCropSource: Sendable, Identifiable {
       kCGImageSourceThumbnailMaxPixelSize: Self.maximumPixelDimension,
       kCGImageSourceShouldCacheImmediately: true,
     ] as CFDictionary
-    guard let image = CGImageSourceCreateThumbnailAtIndex(source, 0, options) else {
+    let primaryIndex = CGImageSourceGetPrimaryImageIndex(source)
+    guard let image = CGImageSourceCreateThumbnailAtIndex(source, primaryIndex, options) else {
       throw SquareCropError.invalidImageData
     }
     guard image.width > 0, image.height > 0 else {
